@@ -25,11 +25,6 @@ A full-stack **real-time chat application** built with **Angular (frontend)** an
     │  Spring Boot Backend    │
     │ (REST API + WebSocket)  │
     └─────┬───────────────┬───┘
-          │               │
- ┌────────▼────┐   ┌──────▼─────────┐
- │ Kafka Broker│   │  MySQL DB      │
- │ (Message Bus)│   │  (Chat, Users)│
- └─────────────┘   └────────────────┘
 
  ## 🛠 Tech Stack
 
@@ -59,6 +54,7 @@ A full-stack **real-time chat application** built with **Angular (frontend)** an
 🧰 Useful Commands
 
 npm install
+
 ng serve
 
 ./mvnw spring-boot:run
