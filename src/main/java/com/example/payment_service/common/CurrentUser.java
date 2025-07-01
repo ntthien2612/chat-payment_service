@@ -1,4 +1,4 @@
-package com.example.payment_service.config;
+package com.example.payment_service.common;
 
 
 import org.springframework.security.core.context.SecurityContextHolder;

@@ -1,4 +1,4 @@
-package com.example.payment_service.config;
+package com.example.payment_service.common;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;

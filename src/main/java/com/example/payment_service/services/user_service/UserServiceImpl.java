@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.payment_service.config.CurrentUser;
-import com.example.payment_service.config.JwtUtil;
+import com.example.payment_service.common.CurrentUser;
+import com.example.payment_service.common.JwtUtil;
 import com.example.payment_service.dto.chat.ChatUsers;
 import com.example.payment_service.dto.user_dto.CurrentUserResponse;
 import com.example.payment_service.dto.user_dto.LoginRequest;

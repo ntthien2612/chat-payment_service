@@ -8,7 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.example.payment_service.config.CurrentUser;
+import com.example.payment_service.common.CurrentUser;
 import com.example.payment_service.dto.todo_dto.TodoMapper;
 import com.example.payment_service.dto.todo_dto.TodoRequest;
 import com.example.payment_service.dto.todo_dto.TodoResponse;

@@ -1,4 +1,4 @@
-package com.example.payment_service.config;
+package com.example.payment_service.common;
 import java.util.Date;
 
 import org.springframework.stereotype.Component;

@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import com.example.payment_service.config.CurrentUser;
+import com.example.payment_service.common.CurrentUser;
 import com.example.payment_service.dto.chat.ChatMessage_dto;
 import com.example.payment_service.entity.ChatMessage;
 import com.example.payment_service.repository.ChatMessageRepository;
