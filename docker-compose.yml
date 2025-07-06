@@ -15,7 +15,7 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
-      - todo-network
+      - app-network
 
   phpmyadmin:
     image: phpmyadmin
@@ -30,7 +30,7 @@ services:
     ports:
       - "8081:80"
     networks:
-      - todo-network
+      - app-network
 
   zookeeper:
     image: confluentinc/cp-zookeeper:7.5.0
@@ -42,7 +42,7 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
     networks:
-      - todo-network
+      - app-network
 
   kafka:
     image: confluentinc/cp-kafka:7.5.0
@@ -50,15 +50,18 @@ services:
     restart: always
     ports:
       - "9092:9092"
+      - "29092:29092"
     depends_on:
       - zookeeper
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://kafka:29092
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,PLAINTEXT_INTERNAL://0.0.0.0:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     networks:
-      - todo-network
+      - app-network
 
   redis:
     image: redis:7.2-alpine
@@ -69,7 +72,7 @@ services:
     volumes:
       - redis_data:/data
     networks:
-      - todo-network
+      - app-network
     command: ["redis-server", "--appendonly", "yes"]
 
   redisinsight:
@@ -81,12 +84,35 @@ services:
     depends_on:
       - redis
     networks:
-      - todo-network
+      - app-network
+
+  payment_service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: payment_service
+    restart: always
+    depends_on:
+      - db
+      - kafka
+      - redis
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/mysql_db
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
+      JWT_SECRET: your_jwt_secret_key
+    networks:
+      - app-network
 
 volumes:
   mysql_data:
   redis_data:
 
 networks:
-  todo-network:
+  app-network:
     driver: bridge

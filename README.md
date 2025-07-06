@@ -57,10 +57,57 @@ npm install
 
 ng serve
 
+file .jar được build sẵn:
+./mvnw clean package -DskipTests
+
 ./mvnw spring-boot:run
+
+# 1. Biên dịch lại project
+./mvnw clean package -DskipTests
+
+# 2. Build lại Docker image
+docker-compose build payment_service
+
+# 3. Restart service (không cần stop hết)
+docker-compose up -d payment_service
+
+
+1️⃣ Build và chạy container
+
+docker-compose up --build
+
+Chạy lệnh sau để dừng và xóa container:
+docker-compose down
+
+1️⃣ restart container
+
+docker-compose up --build -d
+
+Xóa images, volumes, networks (nếu cần):
+docker rmi $(docker images -q) && docker volume rm $(docker volume ls -q) && docker network prune -f
 
 🙋 Author
 Developed by [Nguyen Thanh Thien]
 
 
+✅ Cách chạy
+Build jar:
+bash
+./mvnw clean package -DskipTests
 
+Start Docker:
+bash
+docker-compose up --build
+
+
+✅ Cách chạy local (không dùng Docker)
+Đảm bảo Docker đã bật Kafka, Redis, MySQL:
+
+bash
+docker-compose up -d db kafka zookeeper redis
+Chạy app Spring Boot bằng Maven:
+
+bash
+./mvnw spring-boot:run
+
+docker-compose start
